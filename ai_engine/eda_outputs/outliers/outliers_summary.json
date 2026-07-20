@@ -1,0 +1,121 @@
+{
+  "dataset_path": "dataset/clean/fraudTrain_clean.csv",
+  "n_rows_used": 150000,
+  "n_numeric_features": 8,
+  "iqr_summary": {
+    "amt": {
+      "q1": 9.64,
+      "q3": 83.05,
+      "iqr": 73.41,
+      "lower_bound": -100.475,
+      "upper_bound": 193.165,
+      "outlier_count": 7746,
+      "outlier_ratio": 0.05164
+    },
+    "city_pop": {
+      "q1": 743.0,
+      "q3": 20328.0,
+      "iqr": 19585.0,
+      "lower_bound": -28634.5,
+      "upper_bound": 49705.5,
+      "outlier_count": 28006,
+      "outlier_ratio": 0.18670666666666666
+    },
+    "trans_hour": {
+      "q1": 7.0,
+      "q3": 19.0,
+      "iqr": 12.0,
+      "lower_bound": -11.0,
+      "upper_bound": 37.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "trans_day_of_week": {
+      "q1": 1.0,
+      "q3": 5.0,
+      "iqr": 4.0,
+      "lower_bound": -5.0,
+      "upper_bound": 11.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "trans_month": {
+      "q1": 3.0,
+      "q3": 9.0,
+      "iqr": 6.0,
+      "lower_bound": -6.0,
+      "upper_bound": 18.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "age": {
+      "q1": 32.0,
+      "q3": 57.0,
+      "iqr": 25.0,
+      "lower_bound": -5.5,
+      "upper_bound": 94.5,
+      "outlier_count": 23,
+      "outlier_ratio": 0.00015333333333333334
+    },
+    "distance_km": {
+      "q1": 55.3797545780904,
+      "q3": 98.5650701141858,
+      "iqr": 43.1853155360954,
+      "lower_bound": -9.398218726052704,
+      "upper_bound": 163.3430434183289,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "merchant_freq": {
+      "q1": 0.001375055430235,
+      "q3": 0.0018848207916401,
+      "iqr": 0.0005097653614051,
+      "lower_bound": 0.00061040738812735,
+      "upper_bound": 0.00264946883374775,
+      "outlier_count": 3253,
+      "outlier_ratio": 0.021686666666666667
+    }
+  },
+  "zscore_summary": {
+    "amt": {
+      "z_threshold": 3.0,
+      "outlier_count": 1484,
+      "outlier_ratio": 0.009893333333333334
+    },
+    "city_pop": {
+      "z_threshold": 3.0,
+      "outlier_count": 3712,
+      "outlier_ratio": 0.024746666666666667
+    },
+    "trans_hour": {
+      "z_threshold": 3.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "trans_day_of_week": {
+      "z_threshold": 3.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "trans_month": {
+      "z_threshold": 3.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "age": {
+      "z_threshold": 3.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "distance_km": {
+      "z_threshold": 3.0,
+      "outlier_count": 0,
+      "outlier_ratio": 0.0
+    },
+    "merchant_freq": {
+      "z_threshold": 3.0,
+      "outlier_count": 965,
+      "outlier_ratio": 0.0064333333333333334
+    }
+  }
+}

@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}Dashboard · FraudShield AI{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+            colors: {
+              brand: { DEFAULT: '#2563EB', dark: '#1D4ED8', light: '#DBEAFE' },
+              accent: { DEFAULT: '#10B981', dark: '#059669', light: '#D1FAE5' },
+              surface: '#F8FAFC',
+            },
+            boxShadow: {
+              soft: '0 4px 20px -2px rgba(15, 23, 42, 0.06)',
+              card: '0 8px 30px -4px rgba(15, 23, 42, 0.08)',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      body { font-family: 'Inter', sans-serif; }
+      /* Simple sidebar toggle via :target */
+      #sidebar { transition: transform .25s ease; }
+      @media (max-width: 1023px) {
+        #sidebar { transform: translateX(-100%); }
+        #sidebar:target { transform: translateX(0); }
+      }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-surface text-slate-800 antialiased">
+
+<div class="flex min-h-screen">
+
+    <!-- Sidebar -->
+    <aside id="sidebar"
+        class="fixed lg:static inset-y-0 left-0 z-40 w-64 bg-white border-r border-slate-100 shadow-soft flex flex-col">
+        <div class="h-16 flex items-center gap-2 px-6 border-b border-slate-100">
+            <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-soft">F</span>
+            <span class="text-base font-bold text-slate-900 tracking-tight">
+                FraudShield <span class="text-brand">AI</span>
+            </span>
+        </div>
+
+        <nav class="flex-1 px-3 py-5 space-y-1 text-sm font-medium">
+            {% with active=active_page %}
+            <a href="{% url 'dashboard' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if active == 'dashboard' %}bg-brand text-white shadow-soft{% else %}text-slate-600 hover:bg-slate-50 hover:text-brand{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 12l9-9 9 9M5 10v10h14V10"/></svg>
+                Dashboard
+            </a>
+            <a href="{% url 'upload_csv' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if active == 'upload' %}bg-brand text-white shadow-soft{% else %}text-slate-600 hover:bg-slate-50 hover:text-brand{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-4 4m4-4l4 4"/></svg>
+                Upload CSV
+            </a>
+            <a href="{% url 'transactions' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if active == 'transactions' %}bg-brand text-white shadow-soft{% else %}text-slate-600 hover:bg-slate-50 hover:text-brand{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 10h18M3 6h18M3 14h18M3 18h18"/></svg>
+                Transactions
+            </a>
+            <a href="{% url 'upload_history' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if active == 'history' %}bg-brand text-white shadow-soft{% else %}text-slate-600 hover:bg-slate-50 hover:text-brand{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M12 8v4l3 2m6-2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+                Upload History
+            </a>
+            <a href="{% url 'analytics' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if active == 'analytics' %}bg-brand text-white shadow-soft{% else %}text-slate-600 hover:bg-slate-50 hover:text-brand{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M3 3v18h18M7 15l4-4 4 4 5-6"/></svg>
+                Analytics
+            </a>
+            <a href="{% url 'profile' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg {% if active == 'profile' %}bg-brand text-white shadow-soft{% else %}text-slate-600 hover:bg-slate-50 hover:text-brand{% endif %}">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M5.121 17.804A9 9 0 1118.879 6.196M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+                Profile
+            </a>
+            {% endwith %}
+
+            <div class="pt-3 mt-3 border-t border-slate-100">
+                <a href="{% url 'logout' %}" class="flex items-center gap-3 px-3 py-2.5 rounded-lg text-slate-600 hover:bg-red-50 hover:text-red-600">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M17 16l4-4m0 0l-4-4m4 4H7m6 4v1a2 2 0 01-2 2H5a2 2 0 01-2-2V5a2 2 0 012-2h6a2 2 0 012 2v1"/></svg>
+                    Logout
+                </a>
+            </div>
+        </nav>
+    </aside>
+
+    <!-- Content wrapper -->
+    <div class="flex-1 flex flex-col min-w-0">
+        <!-- Top header -->
+        <header class="h-16 bg-white border-b border-slate-100 flex items-center gap-4 px-4 sm:px-6 sticky top-0 z-30">
+            <a href="#sidebar" class="lg:hidden inline-flex items-center justify-center w-9 h-9 rounded-lg border border-slate-200 text-slate-600">
+                <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 6h16M4 12h16M4 18h16"/></svg>
+            </a>
+            <h1 class="text-lg sm:text-xl font-semibold text-slate-900 truncate">{% block page_title %}Dashboard{% endblock %}</h1>
+
+            <div class="ml-auto flex items-center gap-3">
+                <div class="hidden md:flex items-center bg-slate-50 border border-slate-200 rounded-xl px-3 py-2 w-72">
+                    <svg class="w-4 h-4 text-slate-400" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-4.35-4.35M17 10a7 7 0 11-14 0 7 7 0 0114 0z"/></svg>
+                    <input type="text" placeholder="Search…" class="bg-transparent border-0 outline-none text-sm ml-2 w-full placeholder:text-slate-400"/>
+                </div>
+                <button class="relative w-10 h-10 inline-flex items-center justify-center rounded-xl border border-slate-200 text-slate-600 hover:text-brand">
+                    <svg class="w-5 h-5" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M15 17h5l-1.4-1.4A2 2 0 0118 14.17V11a6 6 0 10-12 0v3.17a2 2 0 01-.6 1.43L4 17h5m6 0a3 3 0 11-6 0"/></svg>
+                    <span class="absolute -top-1 -right-1 w-4 h-4 rounded-full bg-red-500 text-white text-[10px] font-semibold flex items-center justify-center">3</span>
+                </button>
+                <div class="flex items-center gap-3 pl-3 border-l border-slate-100">
+                    <div class="w-9 h-9 rounded-full bg-gradient-to-br from-brand to-accent text-white flex items-center justify-center font-semibold">
+                        {{ request.user.username|default:"A"|slice:":1"|upper }}
+                    </div>
+                    <div class="hidden sm:block">
+                        <p class="text-sm font-semibold text-slate-900 leading-tight">{{ request.user.get_full_name|default:"Alex Morgan" }}</p>
+                        <p class="text-xs text-slate-500">Analyst</p>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <main class="flex-1 p-4 sm:p-6 lg:p-8">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
+</div>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

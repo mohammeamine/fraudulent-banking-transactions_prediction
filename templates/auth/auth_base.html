@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>{% block title %}FraudShield AI{% endblock %}</title>
+
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: { sans: ['Inter', 'ui-sans-serif', 'system-ui', 'sans-serif'] },
+            colors: {
+              brand: { DEFAULT: '#2563EB', dark: '#1D4ED8', light: '#DBEAFE' },
+              accent: { DEFAULT: '#10B981', dark: '#059669', light: '#D1FAE5' },
+              surface: '#F8FAFC',
+            },
+            boxShadow: {
+              soft: '0 4px 20px -2px rgba(15, 23, 42, 0.06)',
+              card: '0 8px 30px -4px rgba(15, 23, 42, 0.08)',
+            },
+          },
+        },
+      };
+    </script>
+    <style>
+      html { scroll-behavior: smooth; }
+      body { font-family: 'Inter', sans-serif; }
+      @keyframes pulse-dot {
+        0%, 100% { opacity: 1; transform: scale(1); }
+        50% { opacity: 0.6; transform: scale(1.15); }
+      }
+      .pulse-dot { animation: pulse-dot 2s ease-in-out infinite; }
+    </style>
+    {% block extra_head %}{% endblock %}
+</head>
+<body class="min-h-screen bg-surface text-slate-800 antialiased">
+
+<div class="min-h-screen flex">
+
+    <!-- Brand panel -->
+    <aside class="hidden lg:flex lg:w-[44%] xl:w-[42%] relative overflow-hidden bg-gradient-to-br from-brand via-brand-dark to-slate-900 text-white flex-col justify-between p-12">
+        <div class="absolute inset-0 opacity-20">
+            <div class="absolute top-20 -left-10 w-72 h-72 rounded-full bg-white/10 blur-3xl"></div>
+            <div class="absolute bottom-10 right-0 w-96 h-96 rounded-full bg-accent/20 blur-3xl"></div>
+        </div>
+
+        <div class="relative">
+            <a href="{% url 'landing' %}" class="inline-flex items-center gap-2 group">
+                <span class="inline-flex items-center justify-center w-10 h-10 rounded-xl bg-white/15 text-white font-bold shadow-soft group-hover:bg-white/25 transition-colors">F</span>
+                <span class="text-xl font-bold tracking-tight">
+                    FraudShield <span class="text-accent">AI</span>
+                </span>
+            </a>
+        </div>
+
+        <div class="relative space-y-6">
+            <h2 class="text-3xl xl:text-4xl font-extrabold leading-tight tracking-tight">
+                {% block brand_title %}Secure fraud detection for modern banking{% endblock %}
+            </h2>
+            <p class="text-white/75 text-lg leading-relaxed max-w-md">
+                {% block brand_text %}
+                Analyze transactions with AI, flag suspicious activity in seconds,
+                and protect your institution with confidence.
+                {% endblock %}
+            </p>
+
+            <ul class="space-y-3 text-sm text-white/80">
+                <li class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-accent font-bold">✓</span>
+                    Real-time AI fraud scoring
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-accent font-bold">✓</span>
+                    Secure CSV upload &amp; analysis
+                </li>
+                <li class="flex items-center gap-3">
+                    <span class="w-8 h-8 rounded-lg bg-white/10 flex items-center justify-center text-accent font-bold">✓</span>
+                    Actionable insights dashboard
+                </li>
+            </ul>
+        </div>
+
+        <p class="relative text-xs text-white/50">
+            &copy; {% now "Y" %} FraudShield AI. All rights reserved.
+        </p>
+    </aside>
+
+    <!-- Form panel -->
+    <main class="flex-1 flex flex-col min-h-screen">
+        <header class="lg:hidden h-16 flex items-center justify-between px-4 border-b border-slate-100 bg-white">
+            <a href="{% url 'landing' %}" class="flex items-center gap-2">
+                <span class="inline-flex items-center justify-center w-9 h-9 rounded-xl bg-brand text-white font-bold shadow-soft">F</span>
+                <span class="text-base font-bold text-slate-900">FraudShield <span class="text-brand">AI</span></span>
+            </a>
+            <a href="{% url 'landing' %}" class="text-sm font-medium text-slate-600 hover:text-brand transition-colors">Home</a>
+        </header>
+
+        <div class="flex-1 flex items-center justify-center p-6 sm:p-10">
+            <div class="w-full max-w-md">
+                {% block form_content %}{% endblock %}
+            </div>
+        </div>
+    </main>
+</div>
+
+{% block extra_scripts %}{% endblock %}
+</body>
+</html>

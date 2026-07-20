@@ -1,0 +1,108 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% block title %}Upload CSV · FraudShield AI{% endblock %}
+{% block page_title %}Upload CSV{% endblock %}
+
+{% block content %}
+<div class="max-w-3xl mx-auto">
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-8">
+        <h2 class="text-2xl font-bold text-slate-900">Upload Transactions</h2>
+        <p class="mt-1 text-sm text-slate-500">Upload a CSV file with your bank transactions to run fraud analysis.</p>
+
+        <form method="post" enctype="multipart/form-data" class="mt-6">
+            {% csrf_token %}
+            <label id="dropZone" for="csvfile" class="block border-2 border-dashed border-slate-200 rounded-2xl p-10 text-center cursor-pointer hover:border-brand hover:bg-brand-light/30 transition">
+                <div class="mx-auto w-16 h-16 rounded-2xl bg-brand-light text-brand flex items-center justify-center">
+                    <svg class="w-8 h-8" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" d="M4 16v2a2 2 0 002 2h12a2 2 0 002-2v-2M12 12V4m0 0l-4 4m4-4l4 4"/></svg>
+                </div>
+                <p id="dropZoneTitle" class="mt-4 text-lg font-semibold text-slate-900">Drag &amp; Drop your CSV file here</p>
+                <p class="text-sm text-slate-500">or</p>
+                <span class="mt-3 inline-flex items-center px-4 py-2 rounded-lg bg-white border border-slate-200 text-sm font-semibold text-slate-700">Browse Files</span>
+                <p id="fileNameDisplay" class="mt-4 text-sm font-medium text-slate-600">No file selected yet</p>
+                <p class="mt-2 text-xs text-slate-400">Accepted format: CSV only · Max size: 25 MB</p>
+                <input id="csvfile" type="file" name="csvfile" accept=".csv" class="hidden" />
+            </label>
+
+            <button type="submit" class="mt-6 w-full inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl bg-brand text-white font-semibold hover:bg-brand-dark transition shadow-soft">
+                Analyze
+            </button>
+        </form>
+    </div>
+
+    {% if recent_uploads %}
+    <div class="mt-6 bg-white rounded-xl shadow-soft border border-slate-100 p-6">
+        <h3 class="text-lg font-semibold text-slate-900">Recent uploads</h3>
+        <div class="mt-4 space-y-3">
+            {% for upload in recent_uploads %}
+            <div class="flex items-center justify-between rounded-xl border border-slate-100 bg-slate-50 px-4 py-3">
+                <div>
+                    <p class="text-sm font-semibold text-slate-900">{{ upload.original_filename }}</p>
+                    <p class="text-xs text-slate-500">{{ upload.total_rows }} rows · {{ upload.uploaded_at|date:"M d, Y H:i" }}</p>
+                </div>
+                <span class="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-semibold {% if upload.status == 'completed' %}bg-accent-light text-accent-dark{% elif upload.status == 'failed' %}bg-red-100 text-red-700{% else %}bg-brand-light text-brand{% endif %}">
+                    {{ upload.get_status_display }}
+                </span>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const dropZone = document.getElementById('dropZone');
+  const fileInput = document.getElementById('csvfile');
+  const fileNameDisplay = document.getElementById('fileNameDisplay');
+  const dropZoneTitle = document.getElementById('dropZoneTitle');
+
+  function updateFileName(file) {
+    if (!file) {
+      fileNameDisplay.textContent = 'No file selected yet';
+      fileNameDisplay.className = 'mt-4 text-sm font-medium text-slate-600';
+      dropZoneTitle.textContent = 'Drag & Drop your CSV file here';
+      dropZone.classList.remove('border-brand', 'bg-brand-light/30');
+      return;
+    }
+
+    fileNameDisplay.textContent = `Selected file: ${file.name}`;
+    fileNameDisplay.className = 'mt-4 text-sm font-medium text-brand';
+    dropZoneTitle.textContent = 'CSV file ready to upload';
+    dropZone.classList.add('border-brand', 'bg-brand-light/30');
+  }
+
+  if (fileInput) {
+    fileInput.addEventListener('change', (event) => {
+      updateFileName(event.target.files && event.target.files[0] ? event.target.files[0] : null);
+    });
+  }
+
+  if (dropZone && fileInput) {
+    ['dragenter', 'dragover'].forEach((eventName) => {
+      dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropZone.classList.add('border-brand', 'bg-brand-light/30');
+      });
+    });
+
+    ['dragleave', 'drop'].forEach((eventName) => {
+      dropZone.addEventListener(eventName, (event) => {
+        event.preventDefault();
+        event.stopPropagation();
+        dropZone.classList.remove('border-brand', 'bg-brand-light/30');
+      });
+    });
+
+    dropZone.addEventListener('drop', (event) => {
+      const droppedFile = event.dataTransfer && event.dataTransfer.files && event.dataTransfer.files[0];
+      if (droppedFile) {
+        const dataTransfer = new DataTransfer();
+        dataTransfer.items.add(droppedFile);
+        fileInput.files = dataTransfer.files;
+        updateFileName(droppedFile);
+      }
+    });
+  }
+</script>
+{% endblock %}

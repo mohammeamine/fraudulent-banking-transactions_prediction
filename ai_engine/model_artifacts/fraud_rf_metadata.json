@@ -1,0 +1,61 @@
+{
+  "target_column": "is_fraud",
+  "feature_names": [
+    "amt",
+    "gender",
+    "city_pop",
+    "trans_hour",
+    "trans_day_of_week",
+    "trans_month",
+    "age",
+    "distance_km",
+    "category_food_dining",
+    "category_gas_transport",
+    "category_grocery_net",
+    "category_grocery_pos",
+    "category_health_fitness",
+    "category_home",
+    "category_kids_pets",
+    "category_misc_net",
+    "category_misc_pos",
+    "category_personal_care",
+    "category_shopping_net",
+    "category_shopping_pos",
+    "category_travel",
+    "merchant_freq"
+  ],
+  "n_features": 22,
+  "n_rows_used": 1296675,
+  "n_estimators": 300,
+  "max_depth": null,
+  "random_state": 42,
+  "test_size": 0.2,
+  "roc_auc": 0.9953392653047294,
+  "classification_report": {
+    "0": {
+      "precision": 0.9989884426667907,
+      "recall": 0.9997013582382464,
+      "f1-score": 0.9993447733070726,
+      "support": 257834.0
+    },
+    "1": {
+      "precision": 0.9415337889141989,
+      "recall": 0.8261159227181879,
+      "f1-score": 0.8800567778566359,
+      "support": 1501.0
+    },
+    "accuracy": 0.9986966664738659,
+    "macro avg": {
+      "precision": 0.9702611157904948,
+      "recall": 0.9129086404782172,
+      "f1-score": 0.9397007755818543,
+      "support": 259335.0
+    },
+    "weighted avg": {
+      "precision": 0.9986559019943683,
+      "recall": 0.9986966664738659,
+      "f1-score": 0.9986543486394762,
+      "support": 259335.0
+    }
+  }
+}

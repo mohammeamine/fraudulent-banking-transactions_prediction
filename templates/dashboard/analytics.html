@@ -1,0 +1,88 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% block title %}Analytics · FraudShield AI{% endblock %}
+{% block page_title %}Analytics{% endblock %}
+
+{% block extra_head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% endblock %}
+
+{% block content %}
+<!-- Stat cards -->
+<div class="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-4 gap-5">
+    <div class="bg-white rounded-xl p-5 shadow-soft border border-slate-100">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Uploads</p>
+        <p class="mt-2 text-3xl font-bold text-slate-900">{{ total_uploads|default:0 }}</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 shadow-soft border border-slate-100">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Total Transactions</p>
+        <p class="mt-2 text-3xl font-bold text-slate-900">{{ total_transactions|default:0 }}</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 shadow-soft border border-slate-100">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Fraud Rate</p>
+        <p class="mt-2 text-3xl font-bold text-red-600">{{ fraud_rate|default:0 }}%</p>
+    </div>
+    <div class="bg-white rounded-xl p-5 shadow-soft border border-slate-100">
+        <p class="text-xs font-medium text-slate-500 uppercase tracking-wider">Avg Analysis Time</p>
+        <p class="mt-2 text-3xl font-bold text-slate-900">{{ total_transactions|default:0 }}</p>
+    </div>
+</div>
+
+<!-- Charts -->
+<div class="mt-6 grid grid-cols-1 lg:grid-cols-2 gap-6">
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-5">
+        <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold text-slate-900">Transactions per Month</h3>
+            <span class="text-xs text-slate-500">Last 6 months</span>
+        </div>
+        <canvas id="txPerMonth" class="mt-4" height="140"></canvas>
+    </div>
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-5">
+        <h3 class="text-base font-semibold text-slate-900">Fraud vs Safe</h3>
+        <canvas id="fraudVsSafe" class="mt-4" height="140"></canvas>
+    </div>
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-5">
+        <h3 class="text-base font-semibold text-slate-900">Merchant Categories</h3>
+        <canvas id="merchCats" class="mt-4" height="140"></canvas>
+    </div>
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-5">
+        <h3 class="text-base font-semibold text-slate-900">Top Fraudulent Merchants</h3>
+        <canvas id="topFraud" class="mt-4" height="140"></canvas>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+  const BRAND = '#2563EB', ACCENT = '#10B981', RED = '#EF4444';
+  const monthlyLabels = {{ monthly_labels|safe }};
+  const monthlySeries = {{ monthly_series|safe }};
+  const fraudLabels = {{ fraud_labels|safe }};
+  const fraudSeries = {{ fraud_series|safe }};
+  const categoryLabels = {{ category_labels|safe }};
+  const categorySeries = {{ category_series|safe }};
+
+  new Chart(document.getElementById('txPerMonth'), {
+    type: 'line',
+    data: { labels: monthlyLabels,
+      datasets: [{ label: 'Transactions', data: monthlySeries,
+        borderColor: BRAND, backgroundColor: 'rgba(37,99,235,0.1)', fill: true, tension: 0.35 }] },
+    options: { plugins: { legend: { display:false } } }
+  });
+  new Chart(document.getElementById('fraudVsSafe'), {
+    type: 'doughnut',
+    data: { labels: fraudLabels, datasets: [{ data: fraudSeries, backgroundColor:[ACCENT,RED] }] }
+  });
+  new Chart(document.getElementById('merchCats'), {
+    type: 'bar',
+    data: { labels: categoryLabels,
+      datasets: [{ data: categorySeries, backgroundColor: BRAND, borderRadius: 8 }] },
+    options: { plugins:{ legend:{ display:false } } }
+  });
+  new Chart(document.getElementById('topFraud'), {
+    type: 'bar',
+    data: { labels: categoryLabels,
+      datasets: [{ data: categorySeries, backgroundColor: RED, borderRadius: 8 }] },
+    options: { indexAxis:'y', plugins:{ legend:{ display:false } } }
+  });
+</script>
+{% endblock %}

@@ -1,0 +1,23 @@
+{
+  "dataset_path": "dataset/clean/fraudTrain_clean.csv",
+  "n_rows_used": 150000,
+  "skew_threshold": 1.0,
+  "skewness_original": {
+    "amt": 52.31771843524798,
+    "city_pop": 5.697719010001226,
+    "trans_hour": -0.2843012129678842,
+    "trans_day_of_week": -0.0821204862756293,
+    "trans_month": 0.29686746987739765,
+    "age": 0.6127326261115819,
+    "distance_km": -0.23376715644242718,
+    "merchant_freq": -0.08155726605223389
+  },
+  "log_transform_candidates": [
+    "amt",
+    "city_pop"
+  ],
+  "skewness_after_log1p": {
+    "amt": -0.2966236340028916,
+    "city_pop": 0.6029147707670055
+  }
+}

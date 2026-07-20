@@ -1,0 +1,70 @@
+{% extends "dashboard/dashboard_base.html" %}
+{% block title %}Settings · FraudShield AI{% endblock %}
+{% block page_title %}Settings{% endblock %}
+
+{% block content %}
+<div class="max-w-4xl mx-auto space-y-6">
+
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-6">
+        <h3 class="text-base font-semibold text-slate-900">Account Settings</h3>
+        <p class="text-sm text-slate-500">Update your basic account information.</p>
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4">
+            <div>
+                <label class="text-xs font-medium text-slate-600">Full Name</label>
+                <input type="text" value="Alex Morgan" class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand"/>
+            </div>
+            <div>
+                <label class="text-xs font-medium text-slate-600">Email</label>
+                <input type="email" value="alex@fraudshield.ai" class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:border-brand"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-6">
+        <h3 class="text-base font-semibold text-slate-900">Notification Preferences</h3>
+        <div class="mt-4 space-y-3 text-sm">
+            <label class="flex items-center justify-between"><span>Email alerts for fraud detections</span><input type="checkbox" checked class="w-4 h-4 accent-brand"/></label>
+            <label class="flex items-center justify-between"><span>Weekly analytics summary</span><input type="checkbox" checked class="w-4 h-4 accent-brand"/></label>
+            <label class="flex items-center justify-between"><span>Product updates</span><input type="checkbox" class="w-4 h-4 accent-brand"/></label>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-6">
+        <h3 class="text-base font-semibold text-slate-900">Theme</h3>
+        <p class="text-sm text-slate-500">Choose how FraudShield AI looks to you.</p>
+        <div class="mt-4 grid grid-cols-3 gap-3">
+            <button class="border-2 border-brand rounded-xl p-4 text-sm font-semibold text-brand">Light</button>
+            <button class="border border-slate-200 rounded-xl p-4 text-sm font-semibold text-slate-600 hover:border-brand">Dark</button>
+            <button class="border border-slate-200 rounded-xl p-4 text-sm font-semibold text-slate-600 hover:border-brand">System</button>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-soft border border-slate-100 p-6">
+        <h3 class="text-base font-semibold text-slate-900">CSV Upload Settings</h3>
+        <div class="mt-4 grid grid-cols-1 sm:grid-cols-2 gap-4 text-sm">
+            <div>
+                <label class="text-xs font-medium text-slate-600">Max file size (MB)</label>
+                <input type="number" value="25" class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-brand"/>
+            </div>
+            <div>
+                <label class="text-xs font-medium text-slate-600">Fraud probability threshold</label>
+                <input type="number" value="0.75" step="0.05" class="mt-1 w-full border border-slate-200 rounded-lg px-3 py-2 focus:outline-none focus:border-brand"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="bg-white rounded-xl shadow-soft border border-red-200 p-6">
+        <h3 class="text-base font-semibold text-red-600">Danger Zone</h3>
+        <p class="text-sm text-slate-500 mt-1">Irreversible actions. Please proceed with caution.</p>
+        <div class="mt-4 flex flex-col sm:flex-row gap-3">
+            <button class="px-4 py-2 rounded-xl border border-red-200 text-red-600 text-sm font-semibold hover:bg-red-50">Clear All Uploads</button>
+            <button class="px-4 py-2 rounded-xl bg-red-600 text-white text-sm font-semibold hover:bg-red-700">Delete Account</button>
+        </div>
+    </div>
+
+    <div class="flex items-center justify-end gap-3">
+        <button class="px-4 py-2 rounded-xl border border-slate-200 text-slate-700 text-sm font-semibold hover:border-brand hover:text-brand">Reset Settings</button>
+        <button class="px-5 py-2 rounded-xl bg-brand text-white text-sm font-semibold hover:bg-brand-dark shadow-soft">Save Changes</button>
+    </div>
+</div>
+{% endblock %}
